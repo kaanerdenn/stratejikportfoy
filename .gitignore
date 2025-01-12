@@ -169,3 +169,46 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - PyCharm (zaten var ama uncomment edelim)
+.idea/
+
+# macOS sistem dosyaları
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows sistem dosyaları
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+
+# Local development settings
+config.local.py
+settings.local.py
+*.local.env
+
+# Virtual environment
+.env
+.venv
+venv/
+ENV/
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
