@@ -5,13 +5,75 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import re
 
-# Sayfa yapılandırması ve stil
+# iPhone için sayfa yapılandırması
 st.set_page_config(
-    page_title="BIST Hisse Analizi",
+    page_title="BIST Analiz",
     page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="collapsed"  # Mobil görünüm için sidebar varsayılan olarak kapalı
+    layout="centered",  # iPhone'da wide layout sorun çıkarabilir
+    initial_sidebar_state="collapsed"
 )
+
+# iPhone optimizasyonları için CSS
+st.markdown("""
+<style>
+    /* iPhone için viewport ayarları */
+    @viewport {
+        width: device-width;
+        initial-scale: 1;
+        maximum-scale: 1;
+        user-scalable: no;
+    }
+
+    /* iPhone notch alanı için padding */
+    @supports (padding-top: env(safe-area-inset-top)) {
+        .main {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+    }
+
+    /* Responsive tasarım ayarları */
+    @media screen and (max-width: 428px) {  /* iPhone 13 Pro Max genişliği */
+        .stPlot {
+            width: 100% !important;
+            height: auto !important;
+        }
+        
+        .stDataFrame {
+            font-size: 12px !important;
+            width: 100% !important;
+            overflow-x: auto !important;
+        }
+        
+        /* Butonları daha tıklanabilir yap */
+        .stButton>button {
+            width: 100% !important;
+            height: 50px !important;
+            margin: 5px 0 !important;
+        }
+
+        /* Input alanlarını büyüt */
+        .stTextInput>div>div>input {
+            height: 45px !important;
+            font-size: 16px !important;  /* iOS'ta zoom'u önler */
+        }
+
+        /* Selectbox'ları büyüt */
+        .stSelectbox>div>div {
+            height: 45px !important;
+        }
+    }
+
+    /* Dark mode desteği */
+    @media (prefers-color-scheme: dark) {
+        .stApp {
+            background-color: #1a1a1a;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # PWA için meta etiketleri
 st.markdown("""
@@ -411,7 +473,7 @@ def analyze_stock(hisse_kodu):
 
             # Ham veri
             with st.expander("📋 Ham Veri"):
-                st.dataframe(daily_data)
+                show_dataframe(daily_data)
                 
         else:
             st.error("❌ Veri bulunamadı. Lütfen geçerli bir hisse kodu giriniz.")
@@ -563,6 +625,14 @@ def show_legal_warning():
     kapsamında değildir. Yatırım tavsiyesi değildir.
     </div>
     """, unsafe_allow_html=True)
+
+# DataFrame gösterimi için iPhone optimizasyonları
+def show_dataframe(df):
+    st.dataframe(
+        df,
+        height=300,  # iPhone'da uygun yükseklik
+        use_container_width=True,  # Tam genişlik kullan
+    )
 
 # Kullanıcı girişi
 col1, col2, col3 = st.columns([1,2,1])
